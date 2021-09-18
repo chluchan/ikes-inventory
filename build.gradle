@@ -27,7 +27,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-  testRuntimeOnly 'com.h2database:h2'
+  testImplementation "org.testcontainers:postgresql:1.16.0"
+  testImplementation 'org.postgresql:postgresql:42.2.5'
+  testImplementation 'org.assertj:assertj-core:3.20.2'
 }
 
 test {

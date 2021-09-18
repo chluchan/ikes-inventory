@@ -1,12 +1,9 @@
 package com.ikes.inventory.model;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import com.sun.istack.NotNull;
 import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -22,25 +19,24 @@ import lombok.experimental.Accessors;
 @Table(name = "inventory_product")
 public class Product {
   @Id
-  @GeneratedValue(strategy = IDENTITY)
   @Getter
   @Setter
-  @Column(name="id", nullable=false)
+  @Column(name="id")
   private long id;
 
   @NotNull
   @Getter
   @Setter
-  @Column(name="name", nullable=false)
+  @Column(name="name")
   private String name;
 
   @NotNull
   @Getter
   @Setter
-  @Column(name="description", nullable=false)
+  @Column(name="description")
   private String description;
 
-  @Column(name="image_url", nullable=true)
+  @Column(name="image_url")
   private String imageUrl;
 
   public Optional<String> getImageUrl() {
