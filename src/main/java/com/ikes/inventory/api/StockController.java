@@ -35,7 +35,7 @@ public class StockController {
   }
 
   @PostMapping("/stocks")
-  Stock newEmployee(@RequestBody Stock newStock) {
+  Stock newStock(@RequestBody Stock newStock) {
     return stockRepository.save(newStock);
   }
 

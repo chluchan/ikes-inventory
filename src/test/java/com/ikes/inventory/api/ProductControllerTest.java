@@ -35,6 +35,44 @@ class ProductControllerTest {
     assertThat(products).containsExactlyInAnyOrderElementsOf(twoBikes);
   }
 
+  @Test
+  @Transactional
+  void shouldCreateAProduct() {
+    Product yetiSb5 = new Product()
+      .setName("Yeti SB5")
+      .setDescription("A high end mountain bike");
+
+    productController.newProduct(yetiSb5);
+
+    Product newTypeOfMountainBike = productController.getProducts().get(0);
+    assertThat(newTypeOfMountainBike).isEqualTo(yetiSb5.setId(newTypeOfMountainBike.getId()));
+  }
+
+  @Test
+  @Transactional
+  void shouldModifyAProduct() {
+    Product typeOfMountainBike = createATypeOfMountainBike();
+    Product modifiedProduct = new Product()
+      .setId(typeOfMountainBike.getId())
+      .copyValuesFrom(typeOfMountainBike)
+      .setName("Yeti SB130");
+
+    productController.replaceProduct(modifiedProduct, typeOfMountainBike.getId());
+
+    Product updatedTypeOfMountainBike = productController.getProducts().get(0);
+    assertThat(updatedTypeOfMountainBike).isEqualTo(modifiedProduct);
+  }
+
+  @Test
+  @Transactional
+  void shouldDeleteAProduct() {
+    Product typeOfMountainBike = createATypeOfMountainBike();
+
+    productController.deleteProduct(typeOfMountainBike.getId());
+
+    assertThat(productController.getProducts()).isEmpty();
+  }
+
   private Product createATypeOfMountainBike() {
     Product yetiSb5 = new Product()
       .setName("Yeti SB5")

@@ -33,7 +33,7 @@ public class StockControllerTest {
 
   @Test
   @Transactional
-  void shouldGetAllProducts() {
+  void shouldGetAllStocks() {
     Product mountainBike = createATypeOfMountainBike();
     Product roadBike = createATypeOfRoadBike();
     Stock specificBike1 = createASpecificBike(mountainBike);
@@ -42,6 +42,48 @@ public class StockControllerTest {
     List<Stock> stocks = stockController.getStocks();
 
     assertThat(stocks).containsExactly(specificBike1, specificBike2);
+  }
+
+  @Test
+  @Transactional
+  void shouldCreateAStock() {
+    Product roadBike = createATypeOfRoadBike();
+    Stock aBike = new Stock()
+      .setProduct(new Product().setId(roadBike.getId()))
+      .setSalesStatus(NOT_FOR_SALE)
+      .setRentalStatus(AVAILABLE_FOR_RENT);
+
+    stockController.newStock(aBike);
+
+    Stock newBikeStock = stockController.getStocks().get(0);
+    assertThat(newBikeStock).isEqualTo(aBike.setId(newBikeStock.getId()).setProduct(roadBike));
+  }
+
+  @Test
+  @Transactional
+  void shouldModifyAStock() {
+    Product roadBike = createATypeOfRoadBike();
+    Product mountainBike = createATypeOfMountainBike();
+    Stock aBike = createASpecificBike(roadBike);
+
+    Stock modifiedStock = new Stock()
+      .setId(aBike.getId())
+      .copyValuesFrom(aBike, mountainBike);
+    stockController.replaceStock(modifiedStock, modifiedStock.getId());
+
+    Stock newBikeStock = stockController.getStocks().get(0);
+    assertThat(newBikeStock)
+      .isEqualTo(modifiedStock.setId(newBikeStock.getId()).setProduct(roadBike));
+  }
+
+  @Test
+  @Transactional
+  void shouldDeleteAStock() {
+    Stock specificBike1 = createASpecificBike(createATypeOfMountainBike());
+
+    stockController.deleteStock(specificBike1.getId());
+
+    assertThat(stockController.getStocks()).isEmpty();
   }
 
   private Stock createASpecificBike(Product product) {

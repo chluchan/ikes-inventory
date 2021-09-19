@@ -69,6 +69,14 @@ public class Stock {
     return this;
   }
 
+  public Stock copyValuesFrom(Stock newStock) {
+    return copyValuesFrom(newStock, Optional.empty());
+  }
+
+  public Stock copyValuesFrom(Stock newStock, Product newProduct) {
+    return copyValuesFrom(newStock, Optional.of(newProduct));
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (obj == null || obj.getClass() != this.getClass()) {
