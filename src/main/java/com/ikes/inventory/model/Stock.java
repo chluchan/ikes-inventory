@@ -1,12 +1,17 @@
 package com.ikes.inventory.model;
 
+import static javax.persistence.GenerationType.AUTO;
+
 import com.sun.istack.NotNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +36,8 @@ public class Stock {
   @Id
   @Getter
   @Setter
-  @Column(name="id")
+  @SequenceGenerator(name = "inventory_stock_id_seq")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
   @NotNull

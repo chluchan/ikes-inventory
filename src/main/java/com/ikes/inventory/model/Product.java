@@ -1,10 +1,16 @@
 package com.ikes.inventory.model;
 
+import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
+
 import com.sun.istack.NotNull;
 import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +27,8 @@ public class Product {
   @Id
   @Getter
   @Setter
+  @SequenceGenerator(name = "inventory_product_id_seq")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name="id")
   private long id;
 
@@ -49,5 +57,14 @@ public class Product {
 
   public void removeImageUrl() {
     this.imageUrl = null;
+  }
+
+  public Product copyValuesFrom(Product newValues) {
+    setName(newValues.getName());
+    setDescription(newValues.getDescription()) ;
+    if (newValues.getImageUrl().isPresent()) {
+      setImageUrl(newValues.getImageUrl().get());
+    }
+    return this;
   }
 }

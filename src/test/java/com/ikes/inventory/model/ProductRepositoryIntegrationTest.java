@@ -33,4 +33,20 @@ public class ProductRepositoryIntegrationTest {
     assertThat(foundProduct).isPresent();
     assertThat(foundProduct.get().getName()).isEqualTo("Test product");
   }
+
+  @Test
+  @Transactional
+  void shouldCreateUniqueIds() {
+    Product p1 = new Product()
+      .setName("p1")
+      .setDescription("p2");
+    Product p2 = new Product()
+      .setName("p2")
+      .setDescription("p2");
+
+    productRepository.save(p1);
+    productRepository.save(p2);
+
+    assertThat(p1.getId()).isNotEqualTo(p2.getId());
+  }
 }
