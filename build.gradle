@@ -36,3 +36,10 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+task stage {
+  dependsOn clean
+  dependsOn assemble
+}
+
+assemble.mustRunAfter(clean)
