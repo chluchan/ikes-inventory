@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import com.sun.istack.NotNull;
+import java.util.Objects;
 import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -66,5 +67,18 @@ public class Product {
       setImageUrl(newValues.getImageUrl().get());
     }
     return this;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null || obj.getClass() != this.getClass()) {
+      return false;
+    }
+
+    Product other = (Product)obj;
+    return other.getId() == this.getId()
+      && Objects.equals(other.getImageUrl(), this.getImageUrl())
+      && Objects.equals(other.getName(), this.getName())
+      && Objects.equals(other.getDescription(), this.getDescription()) ;
   }
 }

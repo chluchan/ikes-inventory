@@ -70,4 +70,12 @@ public class StockRepositoryIntegrationTest {
     productRepository.save(yetiSb5);
     return yetiSb5;
   }
+
+  private Product createATypeOfRoadBike() {
+    Product aliance = new Product()
+      .setName("Giant TCR Aliance")
+      .setDescription("Another road bike");
+    productRepository.save(aliance);
+    return aliance;
+  }
 }

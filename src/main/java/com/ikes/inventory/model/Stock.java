@@ -3,6 +3,8 @@ package com.ikes.inventory.model;
 import static javax.persistence.GenerationType.AUTO;
 
 import com.sun.istack.NotNull;
+import java.util.Objects;
+import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,11 +27,11 @@ import lombok.experimental.Accessors;
 @Entity
 @Table(name = "inventory_stock")
 public class Stock {
-  enum SalesStatus {
+  public enum SalesStatus {
     AVAILABLE_FOR_SALE, NOT_FOR_SALE, SOLD,
   }
 
-  enum RentalStatus {
+  public enum RentalStatus {
     AVAILABLE_FOR_RENT, NOT_FOR_RENT,
   }
 
@@ -59,4 +61,24 @@ public class Stock {
   @Enumerated(EnumType.STRING)
   @Column(name="rental_status")
   private RentalStatus rentalStatus;
+
+  public Stock copyValuesFrom(Stock newStock, Optional<Product> newProduct) {
+    newProduct.ifPresent(this::setProduct);
+    this.salesStatus = newStock.getSalesStatus();
+    this.rentalStatus = newStock.getRentalStatus();
+    return this;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null || obj.getClass() != this.getClass()) {
+      return false;
+    }
+
+    Stock other = (Stock)obj;
+    return other.getId() == this.getId()
+      && other.getRentalStatus() == this.getRentalStatus()
+      && other.getSalesStatus() == this.getSalesStatus()
+      && Objects.equals(other.getProduct(), this.getProduct());
+  }
 }
